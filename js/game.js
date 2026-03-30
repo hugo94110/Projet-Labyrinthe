@@ -59,7 +59,7 @@ export class Game {
     this.gameOver = true;
 
     const timeStr = this.formatTime(this.elapsedSeconds);
-    this.finalChrono.textContent = 'Temps : ' + timeStr;
+    this.finalChrono.textContent = 'Temps final : ' + timeStr;
     this.finalContainer.style.display = 'flex';
   }
 

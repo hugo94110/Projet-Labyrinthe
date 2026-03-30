@@ -20,7 +20,7 @@ canvas {
     display: flex;
     gap: 20px;
     align-items: center;
-    z-index: 1000;
+    z-index: 9;
     font-family: Arial, sans-serif;
 }
 
@@ -30,4 +30,42 @@ canvas {
     padding: 8px 15px;
     border-radius: 30px;
     font-size: 18px;
+}
+
+#finalContainer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    font-family: Arial, sans-serif;
+}
+
+#finalContainer h1 {
+    font-size: 38px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+#finalContainer p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+#buttonRestart {
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 8px 15px;
+    font-size: 18px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+#buttonRestart:hover {
+    background-color: #e4e4e4;
 }
