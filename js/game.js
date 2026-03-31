@@ -15,18 +15,22 @@ export class Game {
     this.finalChrono = document.getElementById('finalChrono');
     this.buttonRestart = document.getElementById('buttonRestart');
 
+    // Bouton UI -> relance une partie complete
     this.buttonRestart.addEventListener('click', () => {
       this.restart();
     });
+    // Flag global lu par Player pour autoriser/bloquer les controles
     window.controlsEnabled = true;
   }
 
   start() {
+    // Reset et demarrage chrono
     this.gameOver = false;
     window.controlsEnabled = true;
     this.startTime = Date.now();
     this.elapsedSeconds = 0;
 
+    // Repositionne le joueur au spawn
     const startPos = this.maze.getStartPosition();
     this.player.setPosition(startPos.x, startPos.y, startPos.z);
 
@@ -38,6 +42,7 @@ export class Game {
       return;
     }
 
+    // Chrono live (s)
     this.elapsedSeconds = (Date.now() - this.startTime) / 1000;
     this.chrono.textContent = this.formatTime(this.elapsedSeconds);
 
@@ -50,6 +55,7 @@ export class Game {
 
     const dx = playerPos.x - exitPos.x;
     const dz = playerPos.z - exitPos.z;
+    // Distance 2D joueur-sortie
     const distance = Math.sqrt(dx * dx + dz * dz);
 
     if (distance < EXIT_DISTANCE) {
@@ -58,6 +64,7 @@ export class Game {
   }
 
   endGame() {
+    // Stop logique et inputs
     this.gameOver = true;
 
     window.controlsEnabled = false;
@@ -75,6 +82,7 @@ export class Game {
   }
 
   restart() {
+    // Regen le labyrinthe puis restart complet
     this.maze.build(this.maze.cols, this.maze.rows);
     this.start();
   }

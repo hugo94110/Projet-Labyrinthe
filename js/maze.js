@@ -42,8 +42,10 @@ export class Maze {
   build(cols, rows) {
     this.cols = cols;
     this.rows = rows;
+    // Sert aux collisions joueur/murs
     this.wallBoxes = [];
 
+    // sa reset l'ancien labyrinthe avant regen
     const existing = this.scene.children.filter(obj => obj.userData.isMazePart);
     for (const obj of existing) {
       this.scene.remove(obj);
@@ -56,6 +58,7 @@ export class Maze {
   }
 
   generateMaze(cols, rows) {
+    // Grille logique: chaque case a 4 murs
     const grid = [];
     for (let r = 0; r < rows; r++) {
       grid[r] = [];
@@ -68,8 +71,7 @@ export class Maze {
     }
 
     const stack = [];
-    let currentRow = 0;
-    let currentCol = 0;
+   
     grid[0][0].visited = true;
     stack.push({ r: 0, c: 0 });
 
@@ -78,8 +80,10 @@ export class Maze {
       const neighbors = this.getUnvisitedNeighbors(grid, current.r, current.c, rows, cols);
 
       if (neighbors.length === 0) {
+        // Cul-de-sac => on remonte
         stack.pop();
       } else {
+        // Prend un voisin random + casse le mur entre les 2
         const index = Math.floor(Math.random() * neighbors.length);
         const next = neighbors[index];
         this.removeWall(grid, current.r, current.c, next.r, next.c);
@@ -112,7 +116,7 @@ export class Maze {
     const depth = this.rows * CELL_SIZE;
     const geo = new THREE.PlaneGeometry(width + 10, depth + 10);
 
-    // Repeat de la texture en fonction de la taille du labyrinthe
+    // Repete de la texture en fonction de la taille du labyrinthe
     this.floorTexture.repeat.set(this.cols * 2, this.rows * 2);
     this.floorNormal.repeat.set(this.cols * 2, this.rows * 2);
 
@@ -150,6 +154,7 @@ export class Maze {
       }
     }
 
+    // Ferme la bordure du bas
     const lastRow = this.rows - 1;
     for (let c = 0; c < this.cols; c++) {
       const x = c * CELL_SIZE + CELL_SIZE / 2;
@@ -159,6 +164,7 @@ export class Maze {
       }
     }
 
+    // Ferme la bordure de droite
     const lastCol = this.cols - 1;
     for (let r = 0; r < this.rows; r++) {
       const x = lastCol * CELL_SIZE + CELL_SIZE / 2;
@@ -177,12 +183,14 @@ export class Maze {
     wall.receiveShadow = true;
     wall.userData.isMazePart = true;
 
+    
     const box = new THREE.Box3().setFromObject(wall);
     this.wallBoxes.push(box);
     this.scene.add(wall);
   }
 
   addExit() {
+    // Sortie fixee en bas a droite
     const exitX = (this.cols - 1) * CELL_SIZE + CELL_SIZE / 2;
     const exitZ = (this.rows - 1) * CELL_SIZE + CELL_SIZE / 2;
     this.exitPosition = new THREE.Vector3(exitX, 0, exitZ);
@@ -196,6 +204,7 @@ export class Maze {
   }
 
   getStartPosition() {
+    // Spawn joueur en haut a gauche
     return new THREE.Vector3(CELL_SIZE / 2, 0, CELL_SIZE / 2);
   }
 }
