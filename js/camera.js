@@ -39,9 +39,16 @@ export class Camera {
   }
 
   updateTopCamera() {
-    const cols = this.maze ? this.maze.cols : 10;
-    const rows = this.maze ? this.maze.rows : 10;
-    const cellSize = this.maze ? this.maze.cellSize : 3;
+    let cols, rows, cellSize;
+    if (this.maze) {
+      cols = this.maze.cols;
+      rows = this.maze.rows;
+      cellSize = this.maze.cellSize;
+    } else {
+      cols = 10;
+      rows = 10;
+      cellSize = 3;
+    }
     
     const width = cols * cellSize;
     const height = rows * cellSize;
@@ -90,6 +97,10 @@ export class Camera {
   }
 
   getActiveCamera() {
-    return this.mode === FIRST_PERSON ? this.firstPersonCamera : this.topCamera;
+    if (this.mode === FIRST_PERSON) {
+      return this.firstPersonCamera;
+    } else {
+      return this.topCamera;
+    }
   }
 }
