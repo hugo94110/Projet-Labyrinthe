@@ -10,7 +10,7 @@ export class Player {
     this.speed = MOVE_SPEED;
     this.radius = PLAYER_RADIUS;
 
-    // Etat des touches (ZQSD + fleches)
+    // Etat des touches
     this.keys = {
       forward: false,
       backward: false,
@@ -41,7 +41,7 @@ export class Player {
   }
 
   listenKeys() {
-    // Keydown: active le mouvement
+    // keydown = active le mouvement
     window.addEventListener('keydown', (e) => {
       if (window.controlsEnabled === false) return;
       if (e.key === 'z' || e.key === 'Z' || e.key === 'ArrowUp') {
@@ -58,7 +58,7 @@ export class Player {
       }
     });
 
-    // Keyup: coupe le mouvement
+    // keyup = coupe le mouvement
     window.addEventListener('keyup', (e) => {
       if (window.controlsEnabled === false) return;
       if (e.key === 'z' || e.key === 'Z' || e.key === 'ArrowUp') {
@@ -77,13 +77,13 @@ export class Player {
   }
 
   update(collision) {
-    // Rotation gauche/droite
+    // rotation gauche/droite
     let angle = this.mesh.rotation.y;
     if (this.keys.left) angle += ROTATE_SPEED;
     if (this.keys.right) angle -= ROTATE_SPEED;
     this.mesh.rotation.y = angle;
 
-    // Avance/recule selon l'angle courant
+    // avance/recule selon l'angle courant
     let move = 0;
     if (this.keys.forward) move -= this.speed;
     if (this.keys.backward) move += this.speed;
@@ -94,7 +94,6 @@ export class Player {
       const newX = this.mesh.position.x + dx;
       const newZ = this.mesh.position.z + dz;
 
-      // Test separe X/Z: effet "glisse" le long des murs
       if (!collision.isColliding(newX, this.mesh.position.z, this.radius)) {
         this.mesh.position.x = newX;
       }

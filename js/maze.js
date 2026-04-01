@@ -15,10 +15,10 @@ export class Maze {
     this.cols = 0;
     this.rows = 0;
 
-    // Charger les textures
+    // charger les textures
     const loader = new THREE.TextureLoader();
 
-    // Texture pour le sol
+    // Texture sol
     this.floorTexture = loader.load('/textures/floor.jpg');
     this.floorTexture.wrapS = THREE.RepeatWrapping;
     this.floorTexture.wrapT = THREE.RepeatWrapping;
@@ -27,7 +27,7 @@ export class Maze {
     this.floorNormal.wrapS = THREE.RepeatWrapping;
     this.floorNormal.wrapT = THREE.RepeatWrapping;
 
-    // Texture pour le mul 
+    // Texture mur
     this.wallTexture = loader.load('/textures/wall.jpg');
     this.wallTexture.wrapS = THREE.RepeatWrapping;
     this.wallTexture.wrapT = THREE.RepeatWrapping;
@@ -80,10 +80,10 @@ export class Maze {
       const neighbors = this.getUnvisitedNeighbors(grid, current.r, current.c, rows, cols);
 
       if (neighbors.length === 0) {
-        // Cul-de-sac => on remonte
+        // cul-de-sac = on remonte
         stack.pop();
       } else {
-        // Prend un voisin random + casse le mur entre les 2
+        // prend un voisin random + casse le mur entre les 2
         const index = Math.floor(Math.random() * neighbors.length);
         const next = neighbors[index];
         this.removeWall(grid, current.r, current.c, next.r, next.c);
@@ -154,7 +154,7 @@ export class Maze {
       }
     }
 
-    // Ferme la bordure du bas
+    // ferme la bordure du bas
     const lastRow = this.rows - 1;
     for (let c = 0; c < this.cols; c++) {
       const x = c * CELL_SIZE + CELL_SIZE / 2;
@@ -164,7 +164,7 @@ export class Maze {
       }
     }
 
-    // Ferme la bordure de droite
+    // ferme la bordure de droite
     const lastCol = this.cols - 1;
     for (let r = 0; r < this.rows; r++) {
       const x = lastCol * CELL_SIZE + CELL_SIZE / 2;

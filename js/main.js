@@ -5,9 +5,8 @@ import { Collision } from './collision.js';
 import { Camera } from './camera.js';
 import { Game } from './game.js';
 
-// Init modules
 const scene = new Scene();
-const maze = new Maze(scene.scene); // build maze
+const maze = new Maze(scene.scene);
 const player = new Player(scene.scene);
 const collision = new Collision(maze);
 const camera = new Camera(scene.renderer, player, maze);
@@ -15,7 +14,7 @@ const game = new Game(maze, player, camera);
 
 game.start();
 
-// Boucle principale (game loop)
+// game loop
 function animate() {
   requestAnimationFrame(animate);
   player.update(collision); // input + collision
